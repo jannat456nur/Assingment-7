@@ -25,7 +25,7 @@ const showProducts = (products) => {
       <p>count: ${product.rating.count}</p>
       <h2>Price: $ ${product.price}</h2>
       <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn jannat-btn-success">add to cart</button>
-      <button onclick="loadDetail(${product.detailId})" id="details-btn" class="btn jannat-btn-danger">Details</button></div>
+      <button onclick="loadDetail(${product.id})" id="details-btn" class="btn jannat-btn-danger">Details</button></div>
       `;
     document.getElementById("all-products").appendChild(div);
   }
@@ -41,6 +41,7 @@ const loadDetail = detailId => {
   //   .then((response) => response.json())
   //   .then((data) => loadDetail(data));
   fetch('https://fakestoreapi.com/products/1')
+
     .then(res => res.json())
     .then(data => displayDetail(data))
 }
@@ -79,6 +80,7 @@ const addToCart = (id, price) => {
 const getInputValue = (id) => {
   const element = document.getElementById(id).innerText;
   const converted = parseInt(element);
+  // console.log(converted)
   return converted;
 };
 
@@ -90,7 +92,7 @@ const updatePrice = (id, value) => {
   // console.log(value)
   const total = convertedOldPrice + convertPrice;
   // console.log(total)
-  document.getElementById(id).innerText = Math.round(total);
+  document.getElementById(id).innerText = parseFloat(total).toFixed(2);
 };
 
 // // set innerText function
@@ -101,6 +103,7 @@ const setInnerText = (id, value) => {
 // update delivery charge and total Tax
 const updateTaxAndCharge = () => {
   const priceConverted = getInputValue("price");
+  // console.log(priceConverted)
   if (priceConverted > 200) {
     setInnerText("delivery-charge", 30);
     setInnerText("total-tax", priceConverted * 0.2);
@@ -120,7 +123,7 @@ const updateTotal = () => {
   const grandTotal =
     getInputValue("price") + getInputValue("delivery-charge") +
     getInputValue("total-tax");
-  console.log(grandTotal)
+  // console.log(grandTotal)
   document.getElementById("total").innerText = grandTotal;
 };
 
